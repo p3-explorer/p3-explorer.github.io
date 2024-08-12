@@ -1,0 +1,6 @@
+title = "Particle physics experiment for organisation X"
+authors = ["Matthew A. Smith","Dr Steven Wright"]
+sources = [["Name of source","Link to source"],["Name of source","Link to source"]] 
+doi = "Doi if applicable"
+tags = ["Some","Suitable","Tags"]
+description = """A suitable description"""

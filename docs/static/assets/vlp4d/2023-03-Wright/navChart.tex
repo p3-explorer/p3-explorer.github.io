@@ -1,0 +1,142 @@
+\documentclass{standalone}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{pgfplots}
+
+\pgfplotsset{compat=1.9}
+\usetikzlibrary{arrows.meta}
+\usepgfplotslibrary{fillbetween}
+
+\newif\ifgoalset
+\goalsetfalse
+
+\begin{document}
+\begin{tikzpicture}
+    % Set the size of the plot
+    \newcommand{\plotheight}{200pt}
+    \newcommand{\plotwidth}{200pt}
+
+    % Application Efficiency or Architectural Efficiency?
+    \newcommand{\plotylabel}{Performance Portability (App. Eff.)}
+
+    % If a goal has been set, set the x and y values here
+    \ifgoalset
+        \newcommand{\goalx}{1.0}
+        \newcommand{\goaly}{1.0}
+    \fi
+
+    %%% Define colors for applications
+    \definecolor{CUDA}{rgb}{0.12156862745098039, 0.4666666666666667, 0.7058823529411765}
+    \definecolor{HIP}{rgb}{1.0, 0.4980392156862745, 0.054901960784313725}
+    \definecolor{Kokkos}{rgb}{0.8392156862745098, 0.15294117647058825, 0.1568627450980392}
+    \definecolor{OpenACC}{rgb}{0.5490196078431373, 0.33725490196078434, 0.29411764705882354}
+    \definecolor{OpenMP}{rgb}{0.8901960784313725, 0.4666666666666667, 0.7607843137254902}
+    \definecolor{Stdpar}{rgb}{0.7372549019607844, 0.7411764705882353, 0.13333333333333333}
+    \definecolor{Thrust}{rgb}{0.09019607843137255, 0.7450980392156863, 0.8117647058823529}
+    
+    %%% Plot the space first, for the arrows to have reference points
+    \begin{axis}
+        [
+            xticklabel style={/pgf/number format/.cd, fixed, fixed zerofill, precision=1},
+            yticklabel style={/pgf/number format/.cd, fixed, fixed zerofill, precision=1},
+            width=\plotwidth,
+            height=\plotheight,
+            name=NavChart,
+            xlabel={Code Convergence},
+            ylabel=\plotylabel,
+            xmin=0,
+            xmax=1,
+            ymin=0,
+            ymax=1,
+            xmajorgrids=true,
+            ymajorgrids=true,
+            grid style={dashed,gray},
+        ]
+    \end{axis}
+
+    %%% Plot the guide arrows around the plot
+
+    % Specialization Arrow
+    \begin{scope}[transparency group, opacity=0.5]
+        \draw [violet, line width=1em, -{Triangle[width=1.5em,length=1em]}] ([yshift=1em]NavChart.north) -- ([yshift=1em]NavChart.north west) ;
+    \end{scope}
+    \draw [draw opacity=0.0] ([yshift=1em]NavChart.north) -- ([yshift=1em]NavChart.north west) node [midway, color=black, font=\scriptsize] {Specialization} ;
+
+    % Abstraction Arrow
+    \begin{scope}[transparency group, opacity=0.5]
+        \draw [blue, line width=1em, -{Triangle[width=1.5em,length=1em]}] ([yshift=1em]NavChart.north) -- ([yshift=1em]NavChart.north east) ;
+    \end{scope}
+    \draw [draw opacity=0.0] ([yshift=1em]NavChart.north) -- ([yshift=1em]NavChart.north east) node [midway, color=black, font=\scriptsize] {Abstraction} ;
+
+    % Regression Arrow
+    \begin{scope}[transparency group, opacity=0.5]
+        \draw [pink, line width=1em, -{Triangle[width=1.5em,length=1em]}] ([xshift=1em]NavChart.east) -- ([xshift=1em]NavChart.south east) ;
+    \end{scope}
+    \draw [draw opacity=0.0] ([xshift=1em]NavChart.east) -- ([xshift=1em]NavChart.south east) node [midway, rotate=90, color=black, font=\scriptsize] {Regression} ;
+
+    % Optimization Arrow
+    \begin{scope}[transparency group, opacity=0.5]
+        \draw [ForestGreen, line width=1em, -{Triangle[width=1.5em,length=1em]}] ([xshift=1em]NavChart.east) -- ([xshift=1em]NavChart.north east) ;
+    \end{scope}
+    \draw [draw opacity=0.0] ([xshift=1em]NavChart.east) -- ([xshift=1em]NavChart.north east) node [midway, rotate=90, color=black, font=\scriptsize] {Optimization} ;
+
+    % Unportable Line
+    \begin{scope}[transparency group, opacity=0.3]
+        \draw [red, line width=0.5em] ([xshift=-0.3em]NavChart.south west) -- ([xshift=0.3em]NavChart.south east) ;
+    \end{scope}
+    \draw [draw opacity=0.0] (NavChart.south west) -- (NavChart.south east) node [midway, color=black, yshift=0.5em, font=\scriptsize] {Unportable} ;
+
+    % Plot each variant on the plot in a separate axis on top of the previous axis.
+    \begin{axis}
+        [
+            xmin=0,
+            xmax=1,
+            ymin=0,
+            ymax=1,
+            ticks=none,
+            width=\plotwidth,
+            height=\plotheight,
+            legend style={at={(0.5,-0.2)},anchor=north},
+            legend cell align={left}
+        ]
+
+        \addplot+ [semithick, CUDA, mark options={fill=CUDA}, mark=*, mark options={style={solid}}] coordinates { (1.0, 0.0) };
+        \addlegendentry{CUDA}
+        \addplot+ [forget plot, semithick, CUDA, only marks, mark size=8, mark=square] coordinates { (1.0, 0.0) };
+
+        \addplot+ [semithick, HIP, mark options={fill=HIP}, mark=*, mark options={style={solid}, scale=1.5}] coordinates { (1.0, 0.0) };
+        \addlegendentry{HIP}
+        \addplot+ [forget plot, semithick, HIP, only marks, mark size=8, mark=square] coordinates { (1.0, 0.0) };
+
+        \addplot+ [semithick, Kokkos, mark options={fill=Kokkos}, mark=triangle*, mark options={style={solid}, scale=1.5, rotate=180}] coordinates { (1.0, 0.6460089190880552) };
+        \addlegendentry{Kokkos}
+        \addplot+ [forget plot, semithick, Kokkos, only marks, mark size=8, mark=square] coordinates { (1.0, 0.6460089190880552) };
+
+        \addplot+ [semithick, OpenACC, mark options={fill=OpenACC}, mark=triangle*, mark options={style={solid}, scale=1.5}] coordinates { (1.0, 0.0) };
+        \addlegendentry{OpenACC}
+        \addplot+ [forget plot, semithick, OpenACC, only marks, mark size=8, mark=square] coordinates { (1.0, 0.0) };
+
+        \addplot+ [semithick, OpenMP, mark options={fill=OpenMP}, mark=triangle*, mark options={style={solid}, scale=1.5, rotate=90}] coordinates { (1.0, 0.6799948967797363) };
+        \addlegendentry{OpenMP}
+        \addplot+ [forget plot, semithick, OpenMP, only marks, mark size=8, mark=square] coordinates { (1.0, 0.6799948967797363) };
+
+        \addplot+ [semithick, Stdpar, mark options={fill=Stdpar}, mark=triangle*, mark options={style={solid}, scale=1.5, rotate=270}] coordinates { (1.0, 0.0) };
+        \addlegendentry{Stdpar}
+        \addplot+ [forget plot, semithick, Stdpar, only marks, mark size=8, mark=square] coordinates { (1.0, 0.0) };
+
+        \addplot+ [semithick, Thrust, mark options={fill=Thrust}, mark=pentagon*, mark options={style={solid}, scale=1.5}] coordinates { (1.0, 0.0) };
+        \addlegendentry{Thrust}
+        \addplot+ [forget plot, semithick, Thrust, only marks, mark size=8, mark=square] coordinates { (1.0, 0.0) };
+
+        
+        % Plot a goal region if a goal has been set.
+        \ifgoalset
+            \path [name path=A] (axis cs:\goalx, \goaly) -- (axis cs:1.0, \goaly) ;
+            \path [name path=B] (axis cs:\goalx, 1.0) -- (axis cs:1.0, 1.0) ;
+            \addplot [yellow] fill between [ of=A and B ] ;
+            \addplot+ [blue, thick, dashed, mark=none] coordinates { (0, \goaly) (1, \goaly) };
+            \addplot+ [blue, thick, dashed, mark=none] coordinates { (\goalx, 0) (\goalx, 1) };
+        \fi
+
+    \end{axis}
+\end{tikzpicture}
+\end{document}

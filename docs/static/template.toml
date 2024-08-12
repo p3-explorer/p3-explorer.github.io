@@ -1,0 +1,12 @@
+title = "Suitable title"
+author = ["Author1","Author2"]
+sources = [["Name of source","Link to source"],["Name of source","Link to source"]] 
+fom = "Figure of Magnitude"
+doi = "Doi if applicable"
+tags = ["Some","Suitable","Tags"]
+description = """A suitable description"""
+
+
+
+
+

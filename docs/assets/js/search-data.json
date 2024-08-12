@@ -1,0 +1,44 @@
+{"0": {
+    "doc": "About",
+    "title": "About",
+    "content": "Data is submitted through pull requests to the GitHub repo, steps for how to submit are as follows: . | Navigate to the submissions folder. | If the app you are submitting data for is present skip to step 6. | Create folder with your app as the name. | Create a readme.toml within the folder, this should contain a short description of the application as well as the app domain (schema can be found below). | Within your folder create another folder named data. | Place all files for your submission in the data folder within your chosen apps folder. | Required files are a CSV containing performance data and a TOML file containing information about the submission, coverage data in a CSV is required for the Navchart plot however all other plots will work without it. | These files should be named as per the convention outlined at the bottom of this page. | The schema for the TOML file can also be found below. | A visual representation of the directory structure for submissions can also be found below. | . | Once you are ready, submit a pull request to the repository you will automatically be told whether your submission can be accepted or not. | All submissions will be subject to review to ensure they are of appropiate standard, we aim to complete this in a reasonable amount of time so please be patient! | . Data toml Format . Download Example Download Schema . App toml Format . Download Example (Note the name of the app is taken from the app’s folder name) . Format of Submission Files . Directory Structure . ",
+    "url": "/P3-Explorer/about.html",
+    
+    "relUrl": "/about.html"
+  },"1": {
+    "doc": "Explore",
+    "title": "Explore",
+    "content": "Show all Structured Grid Linear Heat Conduction Equation Mini-Application Semi-Lagrangian Fluid dynamics vlp4d | Semi-Lagrangian&nbsp; Fluid dynamics&nbsp; Vlasov-Poisson equations in 4D The vlp4d code solves Vlasov-Poisson equations in 4D (2D space and 2D velocity space). From the numerical point of view, vlp4d is based on a semi-lagrangian scheme. Vlasov solver is typ... TeaLeaf | Structured Grid&nbsp; Linear Heat Conduction Equation&nbsp; Mini-Application&nbsp; TeaLeaf A C++ based implementation of the TeaLeaf heat conduction mini-app. This implementation of TeaLeaf replicates the functionality of the original reference version of TeaLeaf (https://github.com/UK-MAC/TeaLeaf_r... ",
+    "url": "/P3-Explorer/explore.html",
+    
+    "relUrl": "/explore.html"
+  },"2": {
+    "doc": "Explore",
+    "title": "Explore",
+    "content": "Explore . ",
+    "url": "/P3-Explorer/explore.html",
+    
+    "relUrl": "/explore.html"
+  },"3": {
+    "doc": "P3 Explorer",
+    "title": "P3 Explorer (Pre-release)",
+    "content": "This webpage contains a collection of graphical representations of Performance, Portability and Productivity (P3) data which have been automatically generated using the P3 Explorer Library, Browse data on the Explore page or learn how to contribute your own data on the About page. Created &amp; Maintained by Matt Smith &amp; Dr Steven A. Wright: . Matt Smith: ms3408@york.ac.uk GitHub LinkedIn . Dr Steven A. Wright: steven.wright8@york.ac.uk . ",
+    "url": "/P3-Explorer/#p3-explorer-pre-release",
+    
+    "relUrl": "/#p3-explorer-pre-release"
+  },"4": {
+    "doc": "P3 Explorer",
+    "title": "P3 Explorer",
+    "content": " ",
+    "url": "/P3-Explorer/",
+    
+    "relUrl": "/"
+  },"5": {
+    "doc": "License",
+    "title": "License",
+    "content": "MIT License . Copyright (c) 2024 Matthew Smith . Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: . The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. ",
+    "url": "/P3-Explorer/license.html",
+    
+    "relUrl": "/license.html"
+  }
+}
