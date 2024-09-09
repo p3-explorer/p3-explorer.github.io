@@ -1,3 +1,10 @@
+Gemfile.lock
+test.html
+csvToCascase.py
+columns.py
+columnExamples/
+.venv/
+mockup.html
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

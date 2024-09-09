@@ -1,0 +1,11 @@
+title = "Developing an Exascale-Ready Fusion Simulation"
+authors = ["S. A. Wright", "C. Ridgers", "E. Higgins", "B. Dudson", "P. Hill", "D. Dickinson", "G. Mudalige", "Z. Lantra", "B. McMillan", "T. Goffrey"]
+sources = [["Project NEPTUNE Report","https://github.com/ExCALIBUR-NEPTUNE/Documents/blob/main/reports/2067270/TN-02-4.pdf"]]
+doi = ""
+fom = "Runtime (s)"
+tags = ["Linear Heat Conduction Equation","Structured Grid","OpenMP","OpenACC","Kokkos","OPS","RAJA","CUDA"]
+description = """
+The results presented in here have all been collected on the Isambard platform.
+
+The results are for Laghos, running problem #1 (Sedov blast wave), in three dimensions, up to 1.0 second of simulated time, using partial assembly (i.e., `./laghos -p 1 -dim 3 -rs 2 -tf 1.0 -pa -f`).
+"""

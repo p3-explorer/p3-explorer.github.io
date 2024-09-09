@@ -1,0 +1,44 @@
+platform,fom,application,problem
+CLX,7.42709,MPI,miniFE
+Rome,9.34445,MPI,miniFE
+KNL,9.35602,MPI,miniFE
+ThunderX2,7.19758,MPI,miniFE
+A64FX,9.92701,MPI,miniFE
+CLX,10.0259,OpenMP,miniFE
+KNL,9.42725,OpenMP,miniFE
+Rome,11.4982,OpenMP,miniFE
+ThunderX2,21.6284,OpenMP,miniFE
+A64FX,14.8937,OpenMP,miniFE
+CLX,9.75987,OpenMP 4.5,miniFE
+KNL,8.88933,OpenMP 4.5,miniFE
+Rome,12.6196,OpenMP 4.5,miniFE
+P100,24.4367,OpenMP 4.5,miniFE
+V100,18.7527,OpenMP 4.5,miniFE
+HD P630,371.287,OpenMP 4.5,miniFE
+ThunderX2,21.972,OpenMP 4.5,miniFE
+A64FX,15.0969,OpenMP 4.5,miniFE
+V100,2.17171,CUDA,miniFE
+P100,3.03975,CUDA,miniFE
+CLX,12.3185,Kokkos,miniFE
+KNL,10.8965,Kokkos,miniFE
+Rome,22.5966,Kokkos,miniFE
+V100,7.29072,Kokkos,miniFE
+P100,12.0929,Kokkos,miniFE
+ThunderX2,24.5122,Kokkos,miniFE
+A64FX,10.8424,Kokkos,miniFE
+CLX,18.944,DPCPP,miniFE
+KNL,36.293,DPCPP,miniFE
+Rome,34.0446,DPCPP,miniFE
+V100,17.6267,DPCPP,miniFE
+P100,21.2567,DPCPP,miniFE
+HD P630,68.7125,DPCPP,miniFE
+CLX,17.4248,hipSYCL,miniFE
+KNL,28.2507,hipSYCL,miniFE
+Rome,50.6887,hipSYCL,miniFE
+V100,16.3946,hipSYCL,miniFE
+P100,20.9213,hipSYCL,miniFE
+ThunderX2,110.921,hipSYCL,miniFE
+A64FX,57.868,hipSYCL,miniFE
+CLX,27.0684,ComputeCpp,miniFE
+KNL,39.3988,ComputeCpp,miniFE
+Rome,30.5836,ComputeCpp,miniFE

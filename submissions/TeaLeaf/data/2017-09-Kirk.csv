@@ -1,0 +1,21 @@
+problem,platform,model,fom,coverage_key
+TeaLeaf,Broadwell,OpenMP,1431.72,omp
+TeaLeaf,KNL,OpenMP,368.85,omp
+TeaLeaf,Broadwell,MPI,605.6,mpi
+TeaLeaf,KNL,MPI,185.81,mpi
+TeaLeaf,Broadwell,Hybrid,594.53,hybrid
+TeaLeaf,KNL,Hybrid,185.81,hybrid
+TeaLeaf,P100,CUDA,76.39,cuda
+TeaLeaf,2 x P100,CUDA,42.66,cuda
+TeaLeaf,Broadwell,OpenACC,408.95,openacc
+TeaLeaf,P100,OpenACC,88.91,openacc
+TeaLeaf,Broadwell,OPS,610.16,ops
+TeaLeaf,KNL,OPS,174.15,ops
+TeaLeaf,P100,OPS,133.25,ops
+TeaLeaf,2 x P100,OPS,163.26,ops
+TeaLeaf,Broadwell,Kokkos,447.19,kokkos
+TeaLeaf,KNL,Kokkos,554.71,kokkos
+TeaLeaf,P100,Kokkos,105.15,kokkos
+TeaLeaf,Broadwell,RAJA,506.57,raja
+TeaLeaf,KNL,RAJA,206.71,raja
+TeaLeaf,P100,RAJA,113.23,raja

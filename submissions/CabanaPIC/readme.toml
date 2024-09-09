@@ -1,0 +1,6 @@
+title = ""
+appDomain = ["Particle-in-Cell", "Structured Grid", "Mini-Application"]
+sources = [["GitHub", "https://github.com/ECP-copa/CabanaPIC",""]] 
+description = """
+A mini-PIC (particle-in-cell) code based on the Cabana library, which is developed in the ECP COPA project. The algorithm employed in the code is standard explicit PIC in Cartesian geometry solving relativistic Vlasov-Maxwell equations.
+"""

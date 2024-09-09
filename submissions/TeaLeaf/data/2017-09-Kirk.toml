@@ -1,0 +1,15 @@
+title = "Achieving Performance Portability for a Heat Conduction Solver Mini-Application on Modern Multi-core Systems"
+authors = ["R. O. Kirk" , "G. R. Mudalige", "I. Z. Reguly", "S. A. Wright", "M. J. Martineau", "S. A. Jarvis"]
+sources = [["TeaLeaf Repository","https://github.com/UoB-HPC/TeaLeaf"], ["OPS APPS Repository", "https://github.com/OP-DSL/OPS-APPS"]] 
+doi = "10.1109/CLUSTER.2017.122"
+fom = "Runtime (s)"
+tags = ["Linear Heat Conduction Equation","Structured Grid","OpenMP","OpenACC","Kokkos","OPS","RAJA","CUDA"]
+description = """
+In this paper, we investigate different implementations of TeaLeaf, a mini-application from the Mantevo suite that solves the linear heat conduction equation. 
+TeaLeaf has been ported to use many parallel programming models, including OpenMP, CUDA and MPI among others. 
+It has also been re-engineered to use the OPS embedded DSL and template libraries Kokkos and RAJA. 
+We use these different implementations to assess the performance portability of each technique on modern multi-core systems.
+
+The results in this paper have been collected from 3 different, single node, multi-core/many-core systems. 
+Each of these systems have been configured with the same set of compilers (which are described in the paper), Linux kernel (3.16.0-4-amd64) and operating system (Debian GNU/Linux 8), in order to get comparable results.
+"""

@@ -1,0 +1,123 @@
+---
+layout: default
+title: Explore
+nav_enabled: True
+nav_order: 2
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Explore</title>
+</head>
+<body onload="filterSelection('all')">
+  <script src="{{ site.baseurl }}{% link static/filter.js %}"></script>
+  <h1>Explore</h1>
+<div id="myBtnContainer">
+  <button class="btn" onclick="filterSelection('all')"> Show all</button>
+  {% for category in site.categories %}
+    {% capture category_name %}{{ category | first }}{% endcapture %}
+    {% assign acceptable = 'false' %}
+      {% if category_name != 'app' %}
+        {% for post in site.posts %}
+        {% if category_name == post.title  %}
+        {% assign acceptable = 'true' %}
+        {% endif %}
+        {% endfor %}
+        {% unless acceptable == 'true' %} 
+        <button class="btn" onclick="filterSelection('{{ category_name }}')">{{category_name}}</button>
+        {% endunless %}
+      {% endif %}   
+  {% endfor %}
+</div>
+
+<!-- The filterable elements. Note that some have multiple class names (this can be used if they belong to multiple categories) -->
+<div class="container">
+  {% for app in site.categories.app %}
+  <div class="filterDiv {{ app.categories }}">
+    <div class="filterHeader">
+      <a href="{{ site.baseurl }}{{ app.url }}" style="text-decoration: none;font-size: large;">
+        {{ app.title }} | 
+    {% for category in app.categories %}
+      {% if category != 'app' %}
+      {{ category }}&nbsp;
+      {% endif %}
+    {% endfor %}
+        </a>
+    </div>    
+    <div class="contentContainer">
+        {% assign text = app.excerpt | remove: '<h1>'| remove_first: app.title |remove_first: 'Back' | remove: '</h1>' | remove: '<p>' | remove: '</p>'|remove_first: ': '|truncate: 470 %}
+        {{ text | strip_html }}
+    </div>
+</div>
+  {% endfor %}
+</div>
+</body>
+<style>
+  .container {
+overflow: hidden;
+align-items: start;
+text-align: left;
+}
+.filterDiv{
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    min-height: 102px;
+    height: fit-content;
+    text-align: center;
+    margin: 5px;
+    display: none;
+}
+.filterHeader{
+    border: 1px solid #ccc;
+    background-color: #ccc;
+    min-height: 30px;
+    height: fit-content;
+    font-size: large;
+}
+.contentContainer{
+  position:relative;
+  top:0px; 
+  font-size:medium; 
+  line-height: 23px;
+  text-align: left;
+  padding-left: 2px;
+  padding-right: 2px;
+  padding-top: 2px;
+  padding-bottom: 0px;
+  height: 72px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.show {
+display:block;
+}
+
+
+
+/* The "show" class is added to the filtered elements */
+.show {
+display:block;
+}
+/* Style the buttons */
+.btn {
+border: none;
+outline: none;
+padding: 6px 8px;
+background-color: #f1f1f1;
+cursor: pointer;
+margin-bottom: 2px;
+}
+/* Add a light grey background on mouse-over */
+.btn:hover {
+background-color: #ddd;
+}
+/* Add a dark background to the active button */
+.btn.active {
+background-color: #666;
+color: white;
+}
+</style>
+</html>

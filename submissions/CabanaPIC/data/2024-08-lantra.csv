@@ -1,0 +1,38 @@
+problem,platform,application,fom
+CabanaPIC,Xeon 6252,Kokkos,66.039
+CabanaPIC,Xeon 6252,OP-PIC (Best),41.811
+CabanaPIC,Xeon 6252,OP-PIC (OpenMP),48.197
+CabanaPIC,Xeon 6252,OP-PIC (MPI),41.811
+CabanaPIC,Xeon 5418Y,Kokkos,35.813
+CabanaPIC,Xeon 5418Y,OP-PIC (Best),29.258
+CabanaPIC,Xeon 5418Y,OP-PIC (OpenMP),33.213
+CabanaPIC,Xeon 5418Y,OP-PIC (MPI),29.258
+CabanaPIC,EPYC 7543,Kokkos,29.786
+CabanaPIC,EPYC 7543,OP-PIC (Best),27.986
+CabanaPIC,EPYC 7543,OP-PIC (OpenMP),27.986
+CabanaPIC,EPYC 7543,OP-PIC (MPI),28.199
+CabanaPIC,EPYC 9334,Kokkos,30.080
+CabanaPIC,EPYC 9334,OP-PIC (Best),31.816
+CabanaPIC,EPYC 9334,OP-PIC (OpenMP),31.816
+CabanaPIC,EPYC 9334,OP-PIC (MPI),40.074
+CabanaPIC,P100,Kokkos,22.406
+CabanaPIC,P100,OP-PIC (Best),22.749
+CabanaPIC,P100,OP-PIC (CUDA),22.749
+CabanaPIC,V100,Kokkos,15.128
+CabanaPIC,V100,OP-PIC (Best),15.631
+CabanaPIC,V100,OP-PIC (CUDA),15.631
+CabanaPIC,H100,Kokkos,9.949
+CabanaPIC,H100,OP-PIC (Best),10.097
+CabanaPIC,H100,OP-PIC (CUDA),10.097
+CabanaPIC,MI100,Kokkos,562.239
+CabanaPIC,MI100,OP-PIC (Best),32.983
+CabanaPIC,MI100,OP-PIC (HIP-seg-reductions),32.983
+CabanaPIC,MI100,OP-PIC (HIP-atomics),587.505
+CabanaPIC,MI210,Kokkos,8.492
+CabanaPIC,MI210,OP-PIC (Best),8.113
+CabanaPIC,MI210,OP-PIC (HIP-unsafe atomics),8.113
+
+
+
+
+

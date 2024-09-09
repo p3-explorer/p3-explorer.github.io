@@ -1,0 +1,27 @@
+problem,fom,application,platform
+Heat,32.6539,OpenMP 4.5,CLX
+Heat,22.3786,OpenMP 4.5,Rome
+Heat,67.3714,OpenMP 4.5,KNL
+Heat,46.4626,OpenMP 4.5,ThunderX2
+Heat,90.3935,OpenMP 4.5,A64FX
+Heat,5.3852,OpenMP 4.5,P100
+Heat,2.5575,OpenMP 4.5,V100
+Heat,66.27914,OpenMP 4.5,HD P630
+Heat,1.99746,CUDA,V100
+Heat,3.16690,CUDA,P100
+Heat,20.1734,DPCPP,CLX
+Heat,48.2199,DPCPP,KNL
+Heat,20.3342,DPCPP,Rome
+Heat,1.9988,DPCPP,V100
+Heat,3.14307,DPCPP,P100
+Heat,50.7108,DPCPP,HD P630
+Heat,20.0866,Open SYCL,CLX
+Heat,60.5002,Open SYCL,KNL
+Heat,39.7573,Open SYCL,Rome
+Heat,1.9948,Open SYCL,V100
+Heat,3.14739,Open SYCL,P100
+Heat,53.466,Open SYCL,ThunderX2
+Heat,116.716,Open SYCL,A64FX
+Heat,19.979600,ComputeCpp,CLX
+Heat,78.416765,ComputeCpp,KNL
+Heat,20.771640,ComputeCpp,Rome

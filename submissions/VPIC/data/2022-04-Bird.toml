@@ -1,0 +1,12 @@
+title = "Performance Portable Plasma Simulations for the Exascale Era"
+authors = ["N. Tan", "R. Bird", "M. Taufer"]
+sources = [["VPIC 2.0 Poster","https://globalcomputing.group/assets/pdf/sc19/SC19_flier_VPIC.pptx.pdf"]] 
+doi = ""
+fom = "Runtime (s)"
+tags = ["Particle-in-Cell","Structured Grid","SIMD","Kokkos"]
+description = """
+As we approach exascale computing the variety of architectures continues to expand. 
+This makes porting and optimization very difficult. 
+Using a portability framework like Kokkos alleviates these issues but the tradeoffs introduced have not been quantified. 
+This project aims to explore the tradeoffs and optimization strategies involved when working with portability frameworks.
+"""

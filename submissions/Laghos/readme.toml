@@ -1,0 +1,7 @@
+title = ""
+appDomain = [ "Unstructured Mesh", "Finite Element", "High-Order" ]
+sources = [["GitHub","https://github.com/CEED/Laghos"]] 
+description = """
+Laghos solves the time-dependent Euler equation of compressible gas dynamics in a moving Lagrangian frame using unstructured high-order finite element spatial discretization and explicit high-order time-stepping. 
+It is built on top of a general discretization library (MFEM) and supports two modes: *full assembly*, where performance is limited by the data motion in a conjugate gradient (CG) solve, and *partial assembly*, where performance depends mostly on small dense matrix operations and the CG solve communication.
+"""

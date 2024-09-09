@@ -1,0 +1,92 @@
+name: Run the scripts to produce plots and commit them to the pages branch ready for build workflow
+
+on:
+  # Runs anytime something is pushed to main
+  push:
+    branches: ["main"]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  # Run the scripts to generate data visualisations  
+  scripts:
+      runs-on: ubuntu-latest
+      steps:
+      # Installing and setting up python
+      - name: setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.11.7
+
+      # Cloning and installing the P3 Analysis Library (in future this should point to a specific commit)
+      - name: Install P3
+        run: |
+          git clone https://github.com/intel/p3-analysis-library.git
+          python -m pip install ./p3-analysis-library
+      
+      # checking out the main branch (NOTE: fetch depth is 0 to prevent error when pushing back to repo)
+      - name: checkout repo content
+        uses: actions/checkout@v4
+        with: 
+          fetch-depth: 0
+      # setting git credentials ready for commiting back to the repo later
+      - name: set credentials
+        run: |
+            git config --global user.email ${{ secrets.email}}
+            git config --global user.name ${{ secrets.name}}
+            git config --global pull.rebase false
+      # setting url of the repo
+      - name: switching from HTTPS to SSH
+        run: git remote set-url origin ${{ secrets.ssh }}
+      
+      # setting up ssh (the repo was private initially so this was necessary)
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+            ssh-private-key: ${{ secrets.sshKey }}
+             
+      # switching to the github-pages branch and merging main into it (updating from main)
+      - name: Checkout to correct branch
+        run: |
+         git fetch origin main
+         git fetch origin github-pages
+         git checkout -b github-pages origin/github-pages
+         git merge origin/main
+
+      # installing all python dependencies
+      - name: Install dependencies
+        run: | 
+            python -m pip install --upgrade pip
+            pip install -r requirements.txt
+      
+      # running submissionHandler.py to generate plots etc
+      - name: Execute Scripts
+        working-directory: ./scripts
+        run: |
+              python submissionHandler.py
+      
+      # staging newly created pages and plots
+      - name: stage changed files
+        run: git add .
+    
+     # commiting the newly created pages and plots
+      - name: commit changed files
+        run: git commit -m "Auto producing visualisations"
+
+     # pushing the changes back to the remote ready for rebuild
+      - name: pull from github-pages
+        run: git pull origin github-pages
+      - name: push code to github-pages
+        run: git push origin HEAD:github-pages  

@@ -1,0 +1,19 @@
+problem,platform,application,fom
+VPIC,Skylake,Reference,108
+VPIC,KNL,Reference,240
+VPIC,TX2,Reference,128
+VPIC,Naples,Reference,94
+VPIC,Rome,Reference,55
+VPIC,Power 9,Reference,130
+VPIC,Skylake,SIMD,55
+VPIC,KNL,SIMD,140
+VPIC,Naples,SIMD,56
+VPIC,Rome,SIMD,40
+VPIC,Power 9,SIMD,73
+VPIC,Skylake,Kokkos,129
+VPIC,KNL,Kokkos,345
+VPIC,TX2,Kokkos,164
+VPIC,Naples,Kokkos,116
+VPIC,Rome,Kokkos,65
+VPIC,Power 9,Kokkos,183
+VPIC,V100,Kokkos,100

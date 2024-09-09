@@ -1,0 +1,30 @@
+title = "An Investigation into the Performance and Portability SYCL Compiler Implementations"
+authors = ["W. R. Shilpage", "S. A. Wright"]
+sources = [["Heat Repository","https://github.com/UoB-HPC/heat_sycl"]] 
+doi = "10.1007/978-3-031-40843-4_45"
+fom = "Runtime (s)"
+tags = ["Open SYCL","DPC++","ComputeCpp","CUDA"]
+description = """
+In this study, we evaluate the performance portability of the Open SYCL, DPC++, and ComputeCpp compilers with a focus on mini-applications of interest to the plasma physics community. 
+Our evaluation is motivated by Project NEPTUNE (NEutrals & Plasma TUrbulance Numerics for the Exascale), a UK project to develop a new simulation code to aid in the design of a future nuclear fusion power plant.
+
+The results in this study have been collected using Isambard, at the University of Bristol, and the Intel DevCloud. 
+Our evaluation includes the Intel HD Graphics P630 GPU, which is a mid-range integrated GPU provided on some Intel Xeon Coffee Lake and Kaby Lake CPUs. 
+It is included in our evaluation to demonstrate the portability to Intel Xe-HPC GPUs, but we do not expect its performance to be competitive with discrete GPUs.
+
+For each of our evaluations on Isambard, we use version 11.0 of the Clang/LLVM compiler environment. 
+We use a custom-build of the compiler infrastructure, to ensure all required features are available (e.g. OpenMP target offload directives, CUDA, HIP). 
+All of our results are collected with `-O3` and other performance relevant compiler flags. 
+We use OpenMPI version 4.1, except on the ThunderX2 platform, where we use version 3.1. 
+We use version 11.2 of the CUDA Toolkit, specifying the correct architecture each time. 
+For Kokkos, we use the OpenMP backend for CPU platforms and the CUDA and HIP backends for GPU platforms. 
+The results presented in this paper are the best runtime achieved on each platform, regardless of maximum parallelism achievable, using the best discovered combination of runtime parameters.
+
+For Open SYCL, we build version 0.9.4 of the compiler from source, enabling it to target CPUs and GPUs through OpenMP and CUDA/HIP, respectively.
+
+We use Intel's proprietary DPC++ compiler for the CLX, KNL and HD P630 platforms, and we build DPC++ version 16.0 from source for the AMD and NVIDIA platforms. 
+For ThunderX2 and A64FX, we were able to compile bench- marks using DPC++ but we encountered linking errors that we were unable to resolve and so we omit results from these platforms.
+
+We use version 2.10.0 of the ComputeCpp compiler, which is distributed as a pre-built executable. 
+It is only compliant up to the SYCL 1.2.1 standard, and therefore is dependent on an OpenCL driver for each architecture; because of this, our platform set is limited to CLX, KNL, Rome and Milan CPUs.
+"""

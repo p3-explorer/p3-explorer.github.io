@@ -1,0 +1,17 @@
+problem,platform,application,fom
+Laghos,CascadeLake,MPI,17.64388443
+Laghos,KNL,MPI,72.77601271
+Laghos,Rome,MPI,10.79221116
+Laghos,A64FX,MPI,45.03361583
+Laghos,CascadeLake,OpenMP,38.4354399
+Laghos,KNL,OpenMP,79.95973535
+Laghos,Rome,OpenMP,25.19320856
+Laghos,A64FX,OpenMP,125.5341554
+Laghos,Pascal,CUDA,20.12321648
+Laghos,Volta,CUDA,16.5803155
+Laghos,CascadeLake,RAJA,11.88575616
+Laghos,KNL,RAJA,67.50747851
+Laghos,Rome,RAJA,10.98836382
+Laghos,A64FX,RAJA,45.67288761
+Laghos,Pascal,RAJA,20.44763667
+Laghos,Volta,RAJA,20.01405822

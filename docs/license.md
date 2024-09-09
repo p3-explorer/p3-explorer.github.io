@@ -1,3 +1,10 @@
+---
+layout: default
+title: License
+nav_enabled: True
+nav_order: 4
+---
+# License
 MIT License
 
 Copyright (c) 2024 University of York

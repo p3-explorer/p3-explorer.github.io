@@ -1,0 +1,11 @@
+
+title = ""
+appDomain = ["Structured Grid", "Finite Difference", "Stencil", "Mini-Application"]
+sources = [["Heat Repository","https://github.com/UoB-HPC/heat_sycl"]]  
+description = """
+Heat is a simple mini-application that solves a heat diffusion equation using a finite-differencing scheme, with a 5-point stencil. 
+It was developed at the University of Bristol as part of an OpenMP tutorial course, and therefore consists of only a few hundred lines of code. 
+The mini-application operates on a two-dimensional structured grid. 
+
+Implementations are available in OpenMP, CUDA and SYCL.
+"""

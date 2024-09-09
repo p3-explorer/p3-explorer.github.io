@@ -1,0 +1,13 @@
+title = "Developing an Exascale-Ready Fusion Simulation"
+authors = ["S. A. Wright", "C. Ridgers", "E. Higgins", "B. Dudson", "P. Hill", "D. Dickinson", "G. Mudalige", "Z. Lantra", "B. McMillan", "T. Goffrey"]
+sources = [["P3 Mini-apps Repository","https://github.com/yasahi-hpc/P3-miniapps/"], ["Project NEPTUNE Report","https://github.com/ExCALIBUR-NEPTUNE/Documents/blob/main/reports/2067270/TN-02-4.pdf"]]
+doi = ""
+fom = "Runtime (s)"
+tags = ["Vlasov-Poisson","2D Landau damping","OpenMP","Thrust","Kokkos","Stdpar","CUDA","OpenACC","HIP"]
+description = """
+The vlp4d application solves the Vlasov-Poisson equations in 4D (2D space and 2D velocity space). 
+It is based on the 5D plasma turbulence code, GYSELA, but is miniaturised specifically for performance portability studies.
+
+In this report, we have collected data running the two-dimensional Landau damping problem (SLD10), documented by Crouseilles et al. 
+We have collected results on the Isambard system, making use of all available architectures (including the Phase 3 system).
+"""
