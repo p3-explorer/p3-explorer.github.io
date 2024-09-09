@@ -1,0 +1,199 @@
+\documentclass{standalone}
+\usepackage{pgfplots}
+
+\usepgfplotslibrary{colormaps}
+
+\pgfplotsset{compat=1.9}
+\usetikzlibrary{pgfplots.groupplots}
+
+\begin{document}
+\begin{tikzpicture}
+    % Set the size of the main (NW) plot, all other sizes are calculated accordingly
+    \newcommand{\plotheight}{200pt}
+    \newcommand{\plotwidth}{200pt}
+
+    \newcommand{\ymax}{1.1}
+
+    % Parameters for the data
+    \newcommand{\applicationcount}{3}
+    \newcommand{\platformcount}{7}
+
+    % Application Efficiency or Architectural Efficiency?
+    \newcommand{\plottitle}{} % This can be set to title the plot
+    \newcommand{\plotylabel}{Application Efficiency}
+
+    %%% Define colors for applications
+    \definecolor{Reference}{rgb}{0.12156862745098039, 0.4666666666666667, 0.7058823529411765}
+    \definecolor{SIMD}{rgb}{0.5490196078431373, 0.33725490196078434, 0.29411764705882354}
+    \definecolor{Kokkos}{rgb}{0.09019607843137255, 0.7450980392156863, 0.8117647058823529}
+    
+    %%% Define colors for platforms
+    \definecolor{A}{rgb}{0.403921568627451, 0.0, 0.12156862745098039}
+    \definecolor{B}{rgb}{0.792156862745098, 0.2823529411764705, 0.257516339869281}
+    \definecolor{C}{rgb}{0.9686274509803922, 0.7176470588235293, 0.5999999999999999}
+    \definecolor{D}{rgb}{0.9686274509803922, 0.9686274509803922, 0.9686274509803922}
+    \definecolor{E}{rgb}{0.6549019607843138, 0.8143790849673204, 0.8941176470588236}
+    \definecolor{F}{rgb}{0.21830065359477138, 0.5176470588235296, 0.734640522875817}
+    \definecolor{G}{rgb}{0.0196078431372549, 0.18823529411764706, 0.3803921568627451}
+    
+    % Macros used to calculate various macros based on the parameters above
+    % macro is used to plot the platform plot
+    \pgfmathtruncatemacro\platformcountplusone{\platformcount + 1}
+    % sets the height of the platform ordering plot
+    \pgfmathsetlengthmacro\platorderheight{(15 * \applicationcount) + 10}
+    % sets the width of platform boxes
+    \pgfmathsetlengthmacro\platboxwidth{(\plotwidth - 20) / (\platformcount + 2)}
+    % sets the width of the performance portability bars
+    \pgfmathsetlengthmacro\ppwidth{20 * \applicationcount}
+    % position the platforms legend at the halfway point
+    \pgfmathsetmacro\platlegmid{(\platformcount + 1) / 2}
+
+    %%% Set up a style for the platforms box
+    \tikzset{platform/.style={black,draw=black,shape=rectangle,minimum width=\platboxwidth, minimum height=15pt}}
+
+    %%% Set up a style for the platforms legend
+    \pgfplotsset{/pgfplots/platform legend/.style={legend image code/.code={ \node [draw, black,fill=#1,shape=rectangle, minimum size=1.5em] { #1 }; } } }
+
+    %%%% Begin plotting the plot itself
+    \begin{groupplot}[
+            group style={group size=2 by 2, vertical sep=0cm, horizontal sep=2mm},
+            scaled ticks=false,
+            yticklabel style={
+                /pgf/number format/fixed,
+            },
+        ]
+
+        %%%% Plot the line graph
+        \nextgroupplot[
+            title=\plottitle,
+            width=\plotwidth,
+            height=\plotheight,
+            scale only axis,
+            grid=both,
+            grid style={line width=.1pt, draw=gray!10},
+            major grid style={line width=.2pt,draw=gray!50},
+            xtick={1,...,\platformcount},
+            ylabel=\plotylabel,
+            xmajorticks=false,
+            yminorticks=true,
+            minor y tick num={4},
+            enlarge x limits,
+            xmin=0,
+            xmax=\platformcountplusone,
+            ymin=0,
+            ymax=\ymax,
+            legend style={at={(1.05,-0.05)}, anchor=north west, legend columns=1},
+            legend cell align={left}
+        ]
+
+        \addplot[Reference, thick, solid, mark=*, mark options={style={solid}}] coordinates {
+            (np.int64(1), 1.0)
+            (np.int64(2), 0.7272727272727273)
+            (np.int64(3), 0.5957446808510638)
+            (np.int64(4), 0.5833333333333334)
+            (np.int64(5), 0.5615384615384615)
+            (np.int64(6), 0.5092592592592593)
+            };
+        \addlegendentry{Reference}
+        \addplot[SIMD, thick, solid, mark=*, mark options={style={solid}, scale=1.5}] coordinates {
+            (np.int64(1), 1.0)
+            (np.int64(2), 1.0)
+            (np.int64(3), 1.0)
+            (np.int64(4), 1.0)
+            (np.int64(5), 1.0)
+            };
+        \addlegendentry{SIMD}
+        \addplot[Kokkos, thick, solid, mark=triangle*, mark options={style={solid}, scale=1.5, rotate=180}] coordinates {
+            (np.int64(1), 1.0)
+            (np.int64(2), 0.7804878048780488)
+            (np.int64(3), 0.6153846153846154)
+            (np.int64(4), 0.4827586206896552)
+            (np.int64(5), 0.4263565891472868)
+            (np.int64(6), 0.4057971014492754)
+            (np.int64(7), 0.3989071038251366)
+            };
+        \addlegendentry{Kokkos}
+        
+        %%%% Plot the PP graph
+        \nextgroupplot[
+            width=\ppwidth,
+            height=\plotheight,
+            scale only axis,
+            bar width=10pt,
+            grid=both,
+            grid style={line width=.1pt, draw=gray!10},
+            major grid style={line width=.2pt,draw=gray!50},
+            yminorticks=true,
+            minor y tick num={4},
+            xmajorticks=false,
+            xmajorgrids=false,
+            ylabel={Performance Portability},
+            ylabel style={rotate=-180},
+            yticklabel pos=right,
+            xtick=data,
+            symbolic x coords={Reference, SIMD, Kokkos},
+            ymin=0,
+            ymax=\ymax,
+            enlarge x limits={abs=10pt}
+        ]
+
+        \addplot+[ybar, Reference, thick, solid, mark=*, mark options={style={solid}}] coordinates { (Reference, 0.0) };
+        \addplot+[ybar, SIMD, thick, solid, mark=*, mark options={style={solid}, scale=1.5}] coordinates { (SIMD, 0.0) };
+        \addplot+[ybar, Kokkos, thick, solid, mark=triangle*, mark options={style={solid}, scale=1.5, rotate=180}] coordinates { (Kokkos, 0.5265427117160421) };
+        
+        %%%% Plot the platform ordering
+        \nextgroupplot[
+            width=\plotwidth,
+            height=\platorderheight,
+            scale only axis,
+            ymajorticks=false,
+            yminorticks=false,
+            xlabel={Platforms},
+            xtick align=outside,
+            xtick={1,...,\platformcount},
+            samples at={0,\platformcountplusone},
+            legend entries={},
+            enlarge y limits={abs=10pt},
+            legend style={at={(axis cs:\platlegmid,-2.8)}, anchor=north, legend columns=4, transpose legend=true},
+            legend cell align={left}
+        ]
+
+        \addplot+[forget plot, Reference, thick, solid, mark=*, mark options={style={solid}}] {2}
+        node [pos=1/\platformcountplusone,platform,fill=C] {C}
+        node [pos=2/\platformcountplusone,platform,fill=E] {E}
+        node [pos=3/\platformcountplusone,platform,fill=D] {D}
+        node [pos=4/\platformcountplusone,platform,fill=B] {B}
+        node [pos=5/\platformcountplusone,platform,fill=F] {F}
+        node [pos=6/\platformcountplusone,platform,fill=A] {A}
+        ;
+        \addplot+[forget plot, SIMD, thick, solid, mark=*, mark options={style={solid}, scale=1.5}] {1}
+        node [pos=1/\platformcountplusone,platform,fill=A] {A}
+        node [pos=2/\platformcountplusone,platform,fill=B] {B}
+        node [pos=3/\platformcountplusone,platform,fill=D] {D}
+        node [pos=4/\platformcountplusone,platform,fill=E] {E}
+        node [pos=5/\platformcountplusone,platform,fill=F] {F}
+        ;
+        \addplot+[forget plot, Kokkos, thick, solid, mark=triangle*, mark options={style={solid}, scale=1.5, rotate=180}] {0}
+        node [pos=1/\platformcountplusone,platform,fill=G] {G}
+        node [pos=2/\platformcountplusone,platform,fill=C] {C}
+        node [pos=3/\platformcountplusone,platform,fill=E] {E}
+        node [pos=4/\platformcountplusone,platform,fill=D] {D}
+        node [pos=5/\platformcountplusone,platform,fill=A] {A}
+        node [pos=6/\platformcountplusone,platform,fill=B] {B}
+        node [pos=7/\platformcountplusone,platform,fill=F] {F}
+        ;
+        
+        %%% Build the platform key
+        \addlegendimage{platform legend={ A }} \addlegendentry{Skylake}
+        \addlegendimage{platform legend={ B }} \addlegendentry{KNL}
+        \addlegendimage{platform legend={ C }} \addlegendentry{TX2}
+        \addlegendimage{platform legend={ D }} \addlegendentry{Naples}
+        \addlegendimage{platform legend={ E }} \addlegendentry{Rome}
+        \addlegendimage{platform legend={ F }} \addlegendentry{Power 9}
+        \addlegendimage{platform legend={ G }} \addlegendentry{V100}
+        
+    \end{groupplot}
+
+\end{tikzpicture}
+
+\end{document}

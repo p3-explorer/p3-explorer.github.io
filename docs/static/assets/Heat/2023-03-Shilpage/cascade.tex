@@ -1,0 +1,231 @@
+\documentclass{standalone}
+\usepackage{pgfplots}
+
+\usepgfplotslibrary{colormaps}
+
+\pgfplotsset{compat=1.9}
+\usetikzlibrary{pgfplots.groupplots}
+
+\begin{document}
+\begin{tikzpicture}
+    % Set the size of the main (NW) plot, all other sizes are calculated accordingly
+    \newcommand{\plotheight}{200pt}
+    \newcommand{\plotwidth}{200pt}
+
+    \newcommand{\ymax}{1.1}
+
+    % Parameters for the data
+    \newcommand{\applicationcount}{5}
+    \newcommand{\platformcount}{8}
+
+    % Application Efficiency or Architectural Efficiency?
+    \newcommand{\plottitle}{} % This can be set to title the plot
+    \newcommand{\plotylabel}{Application Efficiency}
+
+    %%% Define colors for applications
+    \definecolor{OpenMP45}{rgb}{0.12156862745098039, 0.4666666666666667, 0.7058823529411765}
+    \definecolor{CUDA}{rgb}{0.17254901960784313, 0.6274509803921569, 0.17254901960784313}
+    \definecolor{DPCPP}{rgb}{0.5490196078431373, 0.33725490196078434, 0.29411764705882354}
+    \definecolor{OpenSYCL}{rgb}{0.4980392156862745, 0.4980392156862745, 0.4980392156862745}
+    \definecolor{ComputeCpp}{rgb}{0.09019607843137255, 0.7450980392156863, 0.8117647058823529}
+    
+    %%% Define colors for platforms
+    \definecolor{A}{rgb}{0.403921568627451, 0.0, 0.12156862745098039}
+    \definecolor{B}{rgb}{0.7585434173669467, 0.21512605042016802, 0.22577030812324927}
+    \definecolor{C}{rgb}{0.9400560224089636, 0.6084033613445377, 0.480112044817927}
+    \definecolor{D}{rgb}{0.9854341736694678, 0.8901960784313725, 0.834173669467787}
+    \definecolor{E}{rgb}{0.86218487394958, 0.9182072829131653, 0.9490196078431373}
+    \definecolor{F}{rgb}{0.5282913165266112, 0.7445378151260508, 0.8554621848739498}
+    \definecolor{G}{rgb}{0.18655462184873953, 0.47563025210084037, 0.7131652661064426}
+    \definecolor{H}{rgb}{0.0196078431372549, 0.18823529411764706, 0.3803921568627451}
+    
+    % Macros used to calculate various macros based on the parameters above
+    % macro is used to plot the platform plot
+    \pgfmathtruncatemacro\platformcountplusone{\platformcount + 1}
+    % sets the height of the platform ordering plot
+    \pgfmathsetlengthmacro\platorderheight{(15 * \applicationcount) + 10}
+    % sets the width of platform boxes
+    \pgfmathsetlengthmacro\platboxwidth{(\plotwidth - 20) / (\platformcount + 2)}
+    % sets the width of the performance portability bars
+    \pgfmathsetlengthmacro\ppwidth{20 * \applicationcount}
+    % position the platforms legend at the halfway point
+    \pgfmathsetmacro\platlegmid{(\platformcount + 1) / 2}
+
+    %%% Set up a style for the platforms box
+    \tikzset{platform/.style={black,draw=black,shape=rectangle,minimum width=\platboxwidth, minimum height=15pt}}
+
+    %%% Set up a style for the platforms legend
+    \pgfplotsset{/pgfplots/platform legend/.style={legend image code/.code={ \node [draw, black,fill=#1,shape=rectangle, minimum size=1.5em] { #1 }; } } }
+
+    %%%% Begin plotting the plot itself
+    \begin{groupplot}[
+            group style={group size=2 by 2, vertical sep=0cm, horizontal sep=2mm},
+            scaled ticks=false,
+            yticklabel style={
+                /pgf/number format/fixed,
+            },
+        ]
+
+        %%%% Plot the line graph
+        \nextgroupplot[
+            title=\plottitle,
+            width=\plotwidth,
+            height=\plotheight,
+            scale only axis,
+            grid=both,
+            grid style={line width=.1pt, draw=gray!10},
+            major grid style={line width=.2pt,draw=gray!50},
+            xtick={1,...,\platformcount},
+            ylabel=\plotylabel,
+            xmajorticks=false,
+            yminorticks=true,
+            minor y tick num={4},
+            enlarge x limits,
+            xmin=0,
+            xmax=\platformcountplusone,
+            ymin=0,
+            ymax=\ymax,
+            legend style={at={(1.05,-0.05)}, anchor=north west, legend columns=1},
+            legend cell align={left}
+        ]
+
+        \addplot[OpenMP45, thick, solid, mark=*, mark options={style={solid}}] coordinates {
+            (np.int64(1), 1.0)
+            (np.int64(2), 1.0)
+            (np.int64(3), 0.9086448660774132)
+            (np.int64(4), 0.779980449657869)
+            (np.int64(5), 0.7651095050418578)
+            (np.int64(6), 0.715732491828877)
+            (np.int64(7), 0.6118595328582498)
+            (np.int64(8), 0.5836496323256332)
+            };
+        \addlegendentry{OpenMP 4.5}
+        \addplot[CUDA, thick, solid, mark=*, mark options={style={solid}, scale=1.5}] coordinates {
+            (np.int64(1), 0.9986683087521151)
+            (np.int64(2), 0.9924752912943257)
+            };
+        \addlegendentry{CUDA}
+        \addplot[DPCPP, thick, solid, mark=triangle*, mark options={style={solid}, scale=1.5, rotate=180}] coordinates {
+            (np.int64(1), 1.0)
+            (np.int64(2), 1.0)
+            (np.int64(3), 1.0)
+            (np.int64(4), 1.0)
+            (np.int64(5), 0.9979987992795677)
+            (np.int64(6), 0.9903932901741898)
+            };
+        \addlegendentry{DPCPP}
+        \addplot[OpenSYCL, thick, solid, mark=triangle*, mark options={style={solid}, scale=1.5}] coordinates {
+            (np.int64(1), 1.0)
+            (np.int64(2), 0.9986274341597322)
+            (np.int64(3), 0.9946730656258401)
+            (np.int64(4), 0.8690120824449182)
+            (np.int64(5), 0.7970205057173365)
+            (np.int64(6), 0.7744739367353234)
+            (np.int64(7), 0.5114582730718635)
+            };
+        \addlegendentry{Open SYCL}
+        \addplot[ComputeCpp, thick, solid, mark=triangle*, mark options={style={solid}, scale=1.5, rotate=90}] coordinates {
+            (np.int64(1), 1.0)
+            (np.int64(2), 0.978940516974105)
+            (np.int64(3), 0.614918251218346)
+            };
+        \addlegendentry{ComputeCpp}
+        
+        %%%% Plot the PP graph
+        \nextgroupplot[
+            width=\ppwidth,
+            height=\plotheight,
+            scale only axis,
+            bar width=10pt,
+            grid=both,
+            grid style={line width=.1pt, draw=gray!10},
+            major grid style={line width=.2pt,draw=gray!50},
+            yminorticks=true,
+            minor y tick num={4},
+            xmajorticks=false,
+            xmajorgrids=false,
+            ylabel={Performance Portability},
+            ylabel style={rotate=-180},
+            yticklabel pos=right,
+            xtick=data,
+            symbolic x coords={OpenMP 4.5, CUDA, DPCPP, Open SYCL, ComputeCpp},
+            ymin=0,
+            ymax=\ymax,
+            enlarge x limits={abs=10pt}
+        ]
+
+        \addplot+[ybar, OpenMP45, thick, solid, mark=*, mark options={style={solid}}] coordinates { (OpenMP 4.5, 0.7666863561160877) };
+        \addplot+[ybar, CUDA, thick, solid, mark=*, mark options={style={solid}, scale=1.5}] coordinates { (CUDA, 0.0) };
+        \addplot+[ybar, DPCPP, thick, solid, mark=triangle*, mark options={style={solid}, scale=1.5, rotate=180}] coordinates { (DPCPP, 0.0) };
+        \addplot+[ybar, OpenSYCL, thick, solid, mark=triangle*, mark options={style={solid}, scale=1.5}] coordinates { (Open SYCL, 0.0) };
+        \addplot+[ybar, ComputeCpp, thick, solid, mark=triangle*, mark options={style={solid}, scale=1.5, rotate=90}] coordinates { (ComputeCpp, 0.0) };
+        
+        %%%% Plot the platform ordering
+        \nextgroupplot[
+            width=\plotwidth,
+            height=\platorderheight,
+            scale only axis,
+            ymajorticks=false,
+            yminorticks=false,
+            xlabel={Platforms},
+            xtick align=outside,
+            xtick={1,...,\platformcount},
+            samples at={0,\platformcountplusone},
+            legend entries={},
+            enlarge y limits={abs=10pt},
+            legend style={at={(axis cs:\platlegmid,-2.8)}, anchor=north, legend columns=4, transpose legend=true},
+            legend cell align={left}
+        ]
+
+        \addplot+[forget plot, OpenMP45, thick, solid, mark=*, mark options={style={solid}}] {4}
+        node [pos=1/\platformcountplusone,platform,fill=D] {D}
+        node [pos=2/\platformcountplusone,platform,fill=E] {E}
+        node [pos=3/\platformcountplusone,platform,fill=B] {B}
+        node [pos=4/\platformcountplusone,platform,fill=G] {G}
+        node [pos=5/\platformcountplusone,platform,fill=H] {H}
+        node [pos=6/\platformcountplusone,platform,fill=C] {C}
+        node [pos=7/\platformcountplusone,platform,fill=A] {A}
+        node [pos=8/\platformcountplusone,platform,fill=F] {F}
+        ;
+        \addplot+[forget plot, CUDA, thick, solid, mark=*, mark options={style={solid}, scale=1.5}] {3}
+        node [pos=1/\platformcountplusone,platform,fill=G] {G}
+        node [pos=2/\platformcountplusone,platform,fill=F] {F}
+        ;
+        \addplot+[forget plot, DPCPP, thick, solid, mark=triangle*, mark options={style={solid}, scale=1.5, rotate=180}] {2}
+        node [pos=1/\platformcountplusone,platform,fill=C] {C}
+        node [pos=2/\platformcountplusone,platform,fill=B] {B}
+        node [pos=3/\platformcountplusone,platform,fill=H] {H}
+        node [pos=4/\platformcountplusone,platform,fill=F] {F}
+        node [pos=5/\platformcountplusone,platform,fill=G] {G}
+        node [pos=6/\platformcountplusone,platform,fill=A] {A}
+        ;
+        \addplot+[forget plot, OpenSYCL, thick, solid, mark=triangle*, mark options={style={solid}, scale=1.5}] {1}
+        node [pos=1/\platformcountplusone,platform,fill=G] {G}
+        node [pos=2/\platformcountplusone,platform,fill=F] {F}
+        node [pos=3/\platformcountplusone,platform,fill=A] {A}
+        node [pos=4/\platformcountplusone,platform,fill=D] {D}
+        node [pos=5/\platformcountplusone,platform,fill=C] {C}
+        node [pos=6/\platformcountplusone,platform,fill=E] {E}
+        node [pos=7/\platformcountplusone,platform,fill=B] {B}
+        ;
+        \addplot+[forget plot, ComputeCpp, thick, solid, mark=triangle*, mark options={style={solid}, scale=1.5, rotate=90}] {0}
+        node [pos=1/\platformcountplusone,platform,fill=A] {A}
+        node [pos=2/\platformcountplusone,platform,fill=B] {B}
+        node [pos=3/\platformcountplusone,platform,fill=C] {C}
+        ;
+        
+        %%% Build the platform key
+        \addlegendimage{platform legend={ A }} \addlegendentry{CLX}
+        \addlegendimage{platform legend={ B }} \addlegendentry{Rome}
+        \addlegendimage{platform legend={ C }} \addlegendentry{KNL}
+        \addlegendimage{platform legend={ D }} \addlegendentry{ThunderX2}
+        \addlegendimage{platform legend={ E }} \addlegendentry{A64FX}
+        \addlegendimage{platform legend={ F }} \addlegendentry{P100}
+        \addlegendimage{platform legend={ G }} \addlegendentry{V100}
+        \addlegendimage{platform legend={ H }} \addlegendentry{HD P630}
+        
+    \end{groupplot}
+
+\end{tikzpicture}
+
+\end{document}

@@ -1,0 +1,266 @@
+\documentclass{standalone}
+\usepackage{pgfplots}
+
+\usepgfplotslibrary{colormaps}
+
+\pgfplotsset{compat=1.9}
+\usetikzlibrary{pgfplots.groupplots}
+
+\begin{document}
+\begin{tikzpicture}
+    % Set the size of the main (NW) plot, all other sizes are calculated accordingly
+    \newcommand{\plotheight}{200pt}
+    \newcommand{\plotwidth}{200pt}
+
+    \newcommand{\ymax}{1.1}
+
+    % Parameters for the data
+    \newcommand{\applicationcount}{8}
+    \newcommand{\platformcount}{9}
+
+    % Application Efficiency or Architectural Efficiency?
+    \newcommand{\plottitle}{} % This can be set to title the plot
+    \newcommand{\plotylabel}{Application Efficiency}
+
+    %%% Define colors for applications
+    \definecolor{Kokkos}{rgb}{0.12156862745098039, 0.4666666666666667, 0.7058823529411765}
+    \definecolor{OPPICBest}{rgb}{1.0, 0.4980392156862745, 0.054901960784313725}
+    \definecolor{OPPICOpenMP}{rgb}{0.17254901960784313, 0.6274509803921569, 0.17254901960784313}
+    \definecolor{OPPICMPI}{rgb}{0.5803921568627451, 0.403921568627451, 0.7411764705882353}
+    \definecolor{OPPICCUDA}{rgb}{0.5490196078431373, 0.33725490196078434, 0.29411764705882354}
+    \definecolor{OPPICHIPsegreductions}{rgb}{0.4980392156862745, 0.4980392156862745, 0.4980392156862745}
+    \definecolor{OPPICHIPatomics}{rgb}{0.7372549019607844, 0.7411764705882353, 0.13333333333333333}
+    \definecolor{OPPICHIPunsafeatomics}{rgb}{0.09019607843137255, 0.7450980392156863, 0.8117647058823529}
+    
+    %%% Define colors for platforms
+    \definecolor{A}{rgb}{0.403921568627451, 0.0, 0.12156862745098039}
+    \definecolor{B}{rgb}{0.7333333333333333, 0.16470588235294115, 0.2019607843137255}
+    \definecolor{C}{rgb}{0.8980392156862745, 0.5117647058823529, 0.40588235294117636}
+    \definecolor{D}{rgb}{0.9833333333333334, 0.8058823529411764, 0.7127450980392156}
+    \definecolor{E}{rgb}{0.9686274509803922, 0.9686274509803922, 0.9686274509803922}
+    \definecolor{F}{rgb}{0.7578431372549022, 0.8666666666666668, 0.9235294117647059}
+    \definecolor{G}{rgb}{0.4176470588235296, 0.6745098039215687, 0.8176470588235294}
+    \definecolor{H}{rgb}{0.16274509803921575, 0.4441176470588236, 0.6970588235294118}
+    \definecolor{I}{rgb}{0.0196078431372549, 0.18823529411764706, 0.3803921568627451}
+    
+    % Macros used to calculate various macros based on the parameters above
+    % macro is used to plot the platform plot
+    \pgfmathtruncatemacro\platformcountplusone{\platformcount + 1}
+    % sets the height of the platform ordering plot
+    \pgfmathsetlengthmacro\platorderheight{(15 * \applicationcount) + 10}
+    % sets the width of platform boxes
+    \pgfmathsetlengthmacro\platboxwidth{(\plotwidth - 20) / (\platformcount + 2)}
+    % sets the width of the performance portability bars
+    \pgfmathsetlengthmacro\ppwidth{20 * \applicationcount}
+    % position the platforms legend at the halfway point
+    \pgfmathsetmacro\platlegmid{(\platformcount + 1) / 2}
+
+    %%% Set up a style for the platforms box
+    \tikzset{platform/.style={black,draw=black,shape=rectangle,minimum width=\platboxwidth, minimum height=15pt}}
+
+    %%% Set up a style for the platforms legend
+    \pgfplotsset{/pgfplots/platform legend/.style={legend image code/.code={ \node [draw, black,fill=#1,shape=rectangle, minimum size=1.5em] { #1 }; } } }
+
+    %%%% Begin plotting the plot itself
+    \begin{groupplot}[
+            group style={group size=2 by 2, vertical sep=0cm, horizontal sep=2mm},
+            scaled ticks=false,
+            yticklabel style={
+                /pgf/number format/fixed,
+            },
+        ]
+
+        %%%% Plot the line graph
+        \nextgroupplot[
+            title=\plottitle,
+            width=\plotwidth,
+            height=\plotheight,
+            scale only axis,
+            grid=both,
+            grid style={line width=.1pt, draw=gray!10},
+            major grid style={line width=.2pt,draw=gray!50},
+            xtick={1,...,\platformcount},
+            ylabel=\plotylabel,
+            xmajorticks=false,
+            yminorticks=true,
+            minor y tick num={4},
+            enlarge x limits,
+            xmin=0,
+            xmax=\platformcountplusone,
+            ymin=0,
+            ymax=\ymax,
+            legend style={at={(1.05,-0.05)}, anchor=north west, legend columns=1},
+            legend cell align={left}
+        ]
+
+        \addplot[Kokkos, thick, solid, mark=*, mark options={style={solid}}] coordinates {
+            (np.int64(1), 1.0)
+            (np.int64(2), 1.0)
+            (np.int64(3), 1.0)
+            (np.int64(4), 1.0)
+            (np.int64(5), 0.9553697597739047)
+            (np.int64(6), 0.9395689249983213)
+            (np.int64(7), 0.816965906235166)
+            (np.int64(8), 0.6331258801617226)
+            (np.int64(9), 0.05866366438471895)
+            };
+        \addlegendentry{Kokkos}
+        \addplot[OPPICBest, thick, solid, mark=*, mark options={style={solid}, scale=1.5}] coordinates {
+            (np.int64(1), 1.0)
+            (np.int64(2), 1.0)
+            (np.int64(3), 1.0)
+            (np.int64(4), 1.0)
+            (np.int64(5), 1.0)
+            (np.int64(6), 0.9853421808457958)
+            (np.int64(7), 0.9849224141720515)
+            (np.int64(8), 0.9678203569829186)
+            (np.int64(9), 0.9454362584862962)
+            };
+        \addlegendentry{OP-PIC (Best)}
+        \addplot[OPPICOpenMP, thick, solid, mark=triangle*, mark options={style={solid}, scale=1.5, rotate=180}] coordinates {
+            (np.int64(1), 1.0)
+            (np.int64(2), 0.9454362584862962)
+            (np.int64(3), 0.8809201216391171)
+            (np.int64(4), 0.867502126688383)
+            };
+        \addlegendentry{OP-PIC (OpenMP)}
+        \addplot[OPPICMPI, thick, solid, mark=triangle*, mark options={style={solid}, scale=1.5}] coordinates {
+            (np.int64(1), 1.0)
+            (np.int64(2), 1.0)
+            (np.int64(3), 0.9924465406574701)
+            (np.int64(4), 0.7506113689674103)
+            };
+        \addlegendentry{OP-PIC (MPI)}
+        \addplot[OPPICCUDA, thick, solid, mark=triangle*, mark options={style={solid}, scale=1.5, rotate=90}] coordinates {
+            (np.int64(1), 0.9853421808457958)
+            (np.int64(2), 0.9849224141720515)
+            (np.int64(3), 0.9678203569829186)
+            };
+        \addlegendentry{OP-PIC (CUDA)}
+        \addplot[OPPICHIPsegreductions, thick, solid, mark=triangle*, mark options={style={solid}, scale=1.5, rotate=270}] coordinates {
+            (np.int64(1), 1.0)
+            };
+        \addlegendentry{OP-PIC (HIP-seg-reductions)}
+        \addplot[OPPICHIPatomics, thick, solid, mark=pentagon*, mark options={style={solid}, scale=1.5}] coordinates {
+            (np.int64(1), 0.05614079880171232)
+            };
+        \addlegendentry{OP-PIC (HIP-atomics)}
+        \addplot[OPPICHIPunsafeatomics, thick, solid, mark=square*, mark options={style={solid}, scale=1.5}] coordinates {
+            (np.int64(1), 1.0)
+            };
+        \addlegendentry{OP-PIC (HIP-unsafe atomics)}
+        
+        %%%% Plot the PP graph
+        \nextgroupplot[
+            width=\ppwidth,
+            height=\plotheight,
+            scale only axis,
+            bar width=10pt,
+            grid=both,
+            grid style={line width=.1pt, draw=gray!10},
+            major grid style={line width=.2pt,draw=gray!50},
+            yminorticks=true,
+            minor y tick num={4},
+            xmajorticks=false,
+            xmajorgrids=false,
+            ylabel={Performance Portability},
+            ylabel style={rotate=-180},
+            yticklabel pos=right,
+            xtick=data,
+            symbolic x coords={Kokkos, OP-PIC (Best), OP-PIC (OpenMP), OP-PIC (MPI), OP-PIC (CUDA), OP-PIC (HIP-seg-reductions), OP-PIC (HIP-atomics), OP-PIC (HIP-unsafe atomics)},
+            ymin=0,
+            ymax=\ymax,
+            enlarge x limits={abs=10pt}
+        ]
+
+        \addplot+[ybar, Kokkos, thick, solid, mark=*, mark options={style={solid}}] coordinates { (Kokkos, 0.34667564714504634) };
+        \addplot+[ybar, OPPICBest, thick, solid, mark=*, mark options={style={solid}, scale=1.5}] coordinates { (OP-PIC (Best), 0.9867180475617445) };
+        \addplot+[ybar, OPPICOpenMP, thick, solid, mark=triangle*, mark options={style={solid}, scale=1.5, rotate=180}] coordinates { (OP-PIC (OpenMP), 0.0) };
+        \addplot+[ybar, OPPICMPI, thick, solid, mark=triangle*, mark options={style={solid}, scale=1.5}] coordinates { (OP-PIC (MPI), 0.0) };
+        \addplot+[ybar, OPPICCUDA, thick, solid, mark=triangle*, mark options={style={solid}, scale=1.5, rotate=90}] coordinates { (OP-PIC (CUDA), 0.0) };
+        \addplot+[ybar, OPPICHIPsegreductions, thick, solid, mark=triangle*, mark options={style={solid}, scale=1.5, rotate=270}] coordinates { (OP-PIC (HIP-seg-reductions), 0.0) };
+        \addplot+[ybar, OPPICHIPatomics, thick, solid, mark=pentagon*, mark options={style={solid}, scale=1.5}] coordinates { (OP-PIC (HIP-atomics), 0.0) };
+        \addplot+[ybar, OPPICHIPunsafeatomics, thick, solid, mark=square*, mark options={style={solid}, scale=1.5}] coordinates { (OP-PIC (HIP-unsafe atomics), 0.0) };
+        
+        %%%% Plot the platform ordering
+        \nextgroupplot[
+            width=\plotwidth,
+            height=\platorderheight,
+            scale only axis,
+            ymajorticks=false,
+            yminorticks=false,
+            xlabel={Platforms},
+            xtick align=outside,
+            xtick={1,...,\platformcount},
+            samples at={0,\platformcountplusone},
+            legend entries={},
+            enlarge y limits={abs=10pt},
+            legend style={at={(axis cs:\platlegmid,-2.8)}, anchor=north, legend columns=4, transpose legend=true},
+            legend cell align={left}
+        ]
+
+        \addplot+[forget plot, Kokkos, thick, solid, mark=*, mark options={style={solid}}] {7}
+        node [pos=1/\platformcountplusone,platform,fill=E] {E}
+        node [pos=2/\platformcountplusone,platform,fill=G] {G}
+        node [pos=3/\platformcountplusone,platform,fill=D] {D}
+        node [pos=4/\platformcountplusone,platform,fill=F] {F}
+        node [pos=5/\platformcountplusone,platform,fill=I] {I}
+        node [pos=6/\platformcountplusone,platform,fill=C] {C}
+        node [pos=7/\platformcountplusone,platform,fill=B] {B}
+        node [pos=8/\platformcountplusone,platform,fill=A] {A}
+        node [pos=9/\platformcountplusone,platform,fill=H] {H}
+        ;
+        \addplot+[forget plot, OPPICBest, thick, solid, mark=*, mark options={style={solid}, scale=1.5}] {6}
+        node [pos=1/\platformcountplusone,platform,fill=A] {A}
+        node [pos=2/\platformcountplusone,platform,fill=B] {B}
+        node [pos=3/\platformcountplusone,platform,fill=C] {C}
+        node [pos=4/\platformcountplusone,platform,fill=H] {H}
+        node [pos=5/\platformcountplusone,platform,fill=I] {I}
+        node [pos=6/\platformcountplusone,platform,fill=G] {G}
+        node [pos=7/\platformcountplusone,platform,fill=E] {E}
+        node [pos=8/\platformcountplusone,platform,fill=F] {F}
+        node [pos=9/\platformcountplusone,platform,fill=D] {D}
+        ;
+        \addplot+[forget plot, OPPICOpenMP, thick, solid, mark=triangle*, mark options={style={solid}, scale=1.5, rotate=180}] {5}
+        node [pos=1/\platformcountplusone,platform,fill=C] {C}
+        node [pos=2/\platformcountplusone,platform,fill=D] {D}
+        node [pos=3/\platformcountplusone,platform,fill=B] {B}
+        node [pos=4/\platformcountplusone,platform,fill=A] {A}
+        ;
+        \addplot+[forget plot, OPPICMPI, thick, solid, mark=triangle*, mark options={style={solid}, scale=1.5}] {4}
+        node [pos=1/\platformcountplusone,platform,fill=A] {A}
+        node [pos=2/\platformcountplusone,platform,fill=B] {B}
+        node [pos=3/\platformcountplusone,platform,fill=C] {C}
+        node [pos=4/\platformcountplusone,platform,fill=D] {D}
+        ;
+        \addplot+[forget plot, OPPICCUDA, thick, solid, mark=triangle*, mark options={style={solid}, scale=1.5, rotate=90}] {3}
+        node [pos=1/\platformcountplusone,platform,fill=G] {G}
+        node [pos=2/\platformcountplusone,platform,fill=E] {E}
+        node [pos=3/\platformcountplusone,platform,fill=F] {F}
+        ;
+        \addplot+[forget plot, OPPICHIPsegreductions, thick, solid, mark=triangle*, mark options={style={solid}, scale=1.5, rotate=270}] {2}
+        node [pos=1/\platformcountplusone,platform,fill=H] {H}
+        ;
+        \addplot+[forget plot, OPPICHIPatomics, thick, solid, mark=pentagon*, mark options={style={solid}, scale=1.5}] {1}
+        node [pos=1/\platformcountplusone,platform,fill=H] {H}
+        ;
+        \addplot+[forget plot, OPPICHIPunsafeatomics, thick, solid, mark=square*, mark options={style={solid}, scale=1.5}] {0}
+        node [pos=1/\platformcountplusone,platform,fill=I] {I}
+        ;
+        
+        %%% Build the platform key
+        \addlegendimage{platform legend={ A }} \addlegendentry{Xeon 6252}
+        \addlegendimage{platform legend={ B }} \addlegendentry{Xeon 5418Y}
+        \addlegendimage{platform legend={ C }} \addlegendentry{EPYC 7543}
+        \addlegendimage{platform legend={ D }} \addlegendentry{EPYC 9334}
+        \addlegendimage{platform legend={ E }} \addlegendentry{P100}
+        \addlegendimage{platform legend={ F }} \addlegendentry{V100}
+        \addlegendimage{platform legend={ G }} \addlegendentry{H100}
+        \addlegendimage{platform legend={ H }} \addlegendentry{MI100}
+        \addlegendimage{platform legend={ I }} \addlegendentry{MI210}
+        
+    \end{groupplot}
+
+\end{tikzpicture}
+
+\end{document}

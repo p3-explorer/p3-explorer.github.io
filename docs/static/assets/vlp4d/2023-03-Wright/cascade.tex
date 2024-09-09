@@ -1,0 +1,267 @@
+\documentclass{standalone}
+\usepackage{pgfplots}
+
+\usepgfplotslibrary{colormaps}
+
+\pgfplotsset{compat=1.9}
+\usetikzlibrary{pgfplots.groupplots}
+
+\begin{document}
+\begin{tikzpicture}
+    % Set the size of the main (NW) plot, all other sizes are calculated accordingly
+    \newcommand{\plotheight}{200pt}
+    \newcommand{\plotwidth}{200pt}
+
+    \newcommand{\ymax}{1.1}
+
+    % Parameters for the data
+    \newcommand{\applicationcount}{7}
+    \newcommand{\platformcount}{9}
+
+    % Application Efficiency or Architectural Efficiency?
+    \newcommand{\plottitle}{} % This can be set to title the plot
+    \newcommand{\plotylabel}{Application Efficiency}
+
+    %%% Define colors for applications
+    \definecolor{OpenMP}{rgb}{0.12156862745098039, 0.4666666666666667, 0.7058823529411765}
+    \definecolor{Thrust}{rgb}{1.0, 0.4980392156862745, 0.054901960784313725}
+    \definecolor{Kokkos}{rgb}{0.8392156862745098, 0.15294117647058825, 0.1568627450980392}
+    \definecolor{Stdpar}{rgb}{0.5490196078431373, 0.33725490196078434, 0.29411764705882354}
+    \definecolor{CUDA}{rgb}{0.8901960784313725, 0.4666666666666667, 0.7607843137254902}
+    \definecolor{OpenACC}{rgb}{0.7372549019607844, 0.7411764705882353, 0.13333333333333333}
+    \definecolor{HIP}{rgb}{0.09019607843137255, 0.7450980392156863, 0.8117647058823529}
+    
+    %%% Define colors for platforms
+    \definecolor{A}{rgb}{0.403921568627451, 0.0, 0.12156862745098039}
+    \definecolor{B}{rgb}{0.7333333333333333, 0.16470588235294115, 0.2019607843137255}
+    \definecolor{C}{rgb}{0.8980392156862745, 0.5117647058823529, 0.40588235294117636}
+    \definecolor{D}{rgb}{0.9833333333333334, 0.8058823529411764, 0.7127450980392156}
+    \definecolor{E}{rgb}{0.9686274509803922, 0.9686274509803922, 0.9686274509803922}
+    \definecolor{F}{rgb}{0.7578431372549022, 0.8666666666666668, 0.9235294117647059}
+    \definecolor{G}{rgb}{0.4176470588235296, 0.6745098039215687, 0.8176470588235294}
+    \definecolor{H}{rgb}{0.16274509803921575, 0.4441176470588236, 0.6970588235294118}
+    \definecolor{I}{rgb}{0.0196078431372549, 0.18823529411764706, 0.3803921568627451}
+    
+    % Macros used to calculate various macros based on the parameters above
+    % macro is used to plot the platform plot
+    \pgfmathtruncatemacro\platformcountplusone{\platformcount + 1}
+    % sets the height of the platform ordering plot
+    \pgfmathsetlengthmacro\platorderheight{(15 * \applicationcount) + 10}
+    % sets the width of platform boxes
+    \pgfmathsetlengthmacro\platboxwidth{(\plotwidth - 20) / (\platformcount + 2)}
+    % sets the width of the performance portability bars
+    \pgfmathsetlengthmacro\ppwidth{20 * \applicationcount}
+    % position the platforms legend at the halfway point
+    \pgfmathsetmacro\platlegmid{(\platformcount + 1) / 2}
+
+    %%% Set up a style for the platforms box
+    \tikzset{platform/.style={black,draw=black,shape=rectangle,minimum width=\platboxwidth, minimum height=15pt}}
+
+    %%% Set up a style for the platforms legend
+    \pgfplotsset{/pgfplots/platform legend/.style={legend image code/.code={ \node [draw, black,fill=#1,shape=rectangle, minimum size=1.5em] { #1 }; } } }
+
+    %%%% Begin plotting the plot itself
+    \begin{groupplot}[
+            group style={group size=2 by 2, vertical sep=0cm, horizontal sep=2mm},
+            scaled ticks=false,
+            yticklabel style={
+                /pgf/number format/fixed,
+            },
+        ]
+
+        %%%% Plot the line graph
+        \nextgroupplot[
+            title=\plottitle,
+            width=\plotwidth,
+            height=\plotheight,
+            scale only axis,
+            grid=both,
+            grid style={line width=.1pt, draw=gray!10},
+            major grid style={line width=.2pt,draw=gray!50},
+            xtick={1,...,\platformcount},
+            ylabel=\plotylabel,
+            xmajorticks=false,
+            yminorticks=true,
+            minor y tick num={4},
+            enlarge x limits,
+            xmin=0,
+            xmax=\platformcountplusone,
+            ymin=0,
+            ymax=\ymax,
+            legend style={at={(1.05,-0.05)}, anchor=north west, legend columns=1},
+            legend cell align={left}
+        ]
+
+        \addplot[OpenMP, thick, solid, mark=*, mark options={style={solid}}] coordinates {
+            (np.int64(1), 0.9756477425527026)
+            (np.int64(2), 0.9553824310233903)
+            (np.int64(3), 0.8652639193242985)
+            (np.int64(4), 0.769471466097047)
+            (np.int64(5), 0.7177086560162853)
+            (np.int64(6), 0.6298045332563666)
+            (np.int64(7), 0.6094593899490767)
+            (np.int64(8), 0.5134640547967994)
+            (np.int64(9), 0.46751903836504316)
+            };
+        \addlegendentry{OpenMP}
+        \addplot[Thrust, thick, solid, mark=*, mark options={style={solid}, scale=1.5}] coordinates {
+            (np.int64(1), 1.0)
+            (np.int64(2), 1.0)
+            (np.int64(3), 0.9931794956194909)
+            (np.int64(4), 0.9875888232722531)
+            (np.int64(5), 0.9596085140093785)
+            (np.int64(6), 0.939406552892906)
+            (np.int64(7), 0.9034693176764634)
+            };
+        \addlegendentry{Thrust}
+        \addplot[Kokkos, thick, solid, mark=triangle*, mark options={style={solid}, scale=1.5, rotate=180}] coordinates {
+            (np.int64(1), 1.0)
+            (np.int64(2), 1.0)
+            (np.int64(3), 0.9320467474336048)
+            (np.int64(4), 0.8130730136050585)
+            (np.int64(5), 0.6805916189863431)
+            (np.int64(6), 0.6546524423653349)
+            (np.int64(7), 0.4919674765548174)
+            (np.int64(8), 0.4375530261556783)
+            (np.int64(9), 0.43216018159371095)
+            };
+        \addlegendentry{Kokkos}
+        \addplot[Stdpar, thick, solid, mark=triangle*, mark options={style={solid}, scale=1.5}] coordinates {
+            (np.int64(1), 1.0)
+            (np.int64(2), 1.0)
+            (np.int64(3), 1.0)
+            (np.int64(4), 0.9863358743745764)
+            (np.int64(5), 0.969871052139787)
+            (np.int64(6), 0.6759888726771313)
+            };
+        \addlegendentry{Stdpar}
+        \addplot[CUDA, thick, solid, mark=triangle*, mark options={style={solid}, scale=1.5, rotate=90}] coordinates {
+            (np.int64(1), 1.0)
+            (np.int64(2), 0.8545618463757664)
+            };
+        \addlegendentry{CUDA}
+        \addplot[OpenACC, thick, solid, mark=triangle*, mark options={style={solid}, scale=1.5, rotate=270}] coordinates {
+            (np.int64(1), 0.7665532297039414)
+            (np.int64(2), 0.6889964673557504)
+            };
+        \addlegendentry{OpenACC}
+        \addplot[HIP, thick, solid, mark=pentagon*, mark options={style={solid}, scale=1.5}] coordinates {
+            (np.int64(1), 1.0)
+            };
+        \addlegendentry{HIP}
+        
+        %%%% Plot the PP graph
+        \nextgroupplot[
+            width=\ppwidth,
+            height=\plotheight,
+            scale only axis,
+            bar width=10pt,
+            grid=both,
+            grid style={line width=.1pt, draw=gray!10},
+            major grid style={line width=.2pt,draw=gray!50},
+            yminorticks=true,
+            minor y tick num={4},
+            xmajorticks=false,
+            xmajorgrids=false,
+            ylabel={Performance Portability},
+            ylabel style={rotate=-180},
+            yticklabel pos=right,
+            xtick=data,
+            symbolic x coords={OpenMP, Thrust, Kokkos, Stdpar, CUDA, OpenACC, HIP},
+            ymin=0,
+            ymax=\ymax,
+            enlarge x limits={abs=10pt}
+        ]
+
+        \addplot+[ybar, OpenMP, thick, solid, mark=*, mark options={style={solid}}] coordinates { (OpenMP, 0.6799948967797363) };
+        \addplot+[ybar, Thrust, thick, solid, mark=*, mark options={style={solid}, scale=1.5}] coordinates { (Thrust, 0.0) };
+        \addplot+[ybar, Kokkos, thick, solid, mark=triangle*, mark options={style={solid}, scale=1.5, rotate=180}] coordinates { (Kokkos, 0.6460089190880552) };
+        \addplot+[ybar, Stdpar, thick, solid, mark=triangle*, mark options={style={solid}, scale=1.5}] coordinates { (Stdpar, 0.0) };
+        \addplot+[ybar, CUDA, thick, solid, mark=triangle*, mark options={style={solid}, scale=1.5, rotate=90}] coordinates { (CUDA, 0.0) };
+        \addplot+[ybar, OpenACC, thick, solid, mark=triangle*, mark options={style={solid}, scale=1.5, rotate=270}] coordinates { (OpenACC, 0.0) };
+        \addplot+[ybar, HIP, thick, solid, mark=pentagon*, mark options={style={solid}, scale=1.5}] coordinates { (HIP, 0.0) };
+        
+        %%%% Plot the platform ordering
+        \nextgroupplot[
+            width=\plotwidth,
+            height=\platorderheight,
+            scale only axis,
+            ymajorticks=false,
+            yminorticks=false,
+            xlabel={Platforms},
+            xtick align=outside,
+            xtick={1,...,\platformcount},
+            samples at={0,\platformcountplusone},
+            legend entries={},
+            enlarge y limits={abs=10pt},
+            legend style={at={(axis cs:\platlegmid,-2.8)}, anchor=north, legend columns=4, transpose legend=true},
+            legend cell align={left}
+        ]
+
+        \addplot+[forget plot, OpenMP, thick, solid, mark=*, mark options={style={solid}}] {6}
+        node [pos=1/\platformcountplusone,platform,fill=C] {C}
+        node [pos=2/\platformcountplusone,platform,fill=F] {F}
+        node [pos=3/\platformcountplusone,platform,fill=E] {E}
+        node [pos=4/\platformcountplusone,platform,fill=I] {I}
+        node [pos=5/\platformcountplusone,platform,fill=G] {G}
+        node [pos=6/\platformcountplusone,platform,fill=A] {A}
+        node [pos=7/\platformcountplusone,platform,fill=H] {H}
+        node [pos=8/\platformcountplusone,platform,fill=B] {B}
+        node [pos=9/\platformcountplusone,platform,fill=D] {D}
+        ;
+        \addplot+[forget plot, Thrust, thick, solid, mark=*, mark options={style={solid}, scale=1.5}] {5}
+        node [pos=1/\platformcountplusone,platform,fill=C] {C}
+        node [pos=2/\platformcountplusone,platform,fill=D] {D}
+        node [pos=3/\platformcountplusone,platform,fill=G] {G}
+        node [pos=4/\platformcountplusone,platform,fill=I] {I}
+        node [pos=5/\platformcountplusone,platform,fill=A] {A}
+        node [pos=6/\platformcountplusone,platform,fill=H] {H}
+        node [pos=7/\platformcountplusone,platform,fill=B] {B}
+        ;
+        \addplot+[forget plot, Kokkos, thick, solid, mark=triangle*, mark options={style={solid}, scale=1.5, rotate=180}] {4}
+        node [pos=1/\platformcountplusone,platform,fill=E] {E}
+        node [pos=2/\platformcountplusone,platform,fill=F] {F}
+        node [pos=3/\platformcountplusone,platform,fill=C] {C}
+        node [pos=4/\platformcountplusone,platform,fill=G] {G}
+        node [pos=5/\platformcountplusone,platform,fill=I] {I}
+        node [pos=6/\platformcountplusone,platform,fill=H] {H}
+        node [pos=7/\platformcountplusone,platform,fill=A] {A}
+        node [pos=8/\platformcountplusone,platform,fill=D] {D}
+        node [pos=9/\platformcountplusone,platform,fill=B] {B}
+        ;
+        \addplot+[forget plot, Stdpar, thick, solid, mark=triangle*, mark options={style={solid}, scale=1.5}] {3}
+        node [pos=1/\platformcountplusone,platform,fill=A] {A}
+        node [pos=2/\platformcountplusone,platform,fill=B] {B}
+        node [pos=3/\platformcountplusone,platform,fill=H] {H}
+        node [pos=4/\platformcountplusone,platform,fill=C] {C}
+        node [pos=5/\platformcountplusone,platform,fill=G] {G}
+        node [pos=6/\platformcountplusone,platform,fill=D] {D}
+        ;
+        \addplot+[forget plot, CUDA, thick, solid, mark=triangle*, mark options={style={solid}, scale=1.5, rotate=90}] {2}
+        node [pos=1/\platformcountplusone,platform,fill=G] {G}
+        node [pos=2/\platformcountplusone,platform,fill=H] {H}
+        ;
+        \addplot+[forget plot, OpenACC, thick, solid, mark=triangle*, mark options={style={solid}, scale=1.5, rotate=270}] {1}
+        node [pos=1/\platformcountplusone,platform,fill=G] {G}
+        node [pos=2/\platformcountplusone,platform,fill=H] {H}
+        ;
+        \addplot+[forget plot, HIP, thick, solid, mark=pentagon*, mark options={style={solid}, scale=1.5}] {0}
+        node [pos=1/\platformcountplusone,platform,fill=I] {I}
+        ;
+        
+        %%% Build the platform key
+        \addlegendimage{platform legend={ A }} \addlegendentry{CLX}
+        \addlegendimage{platform legend={ B }} \addlegendentry{ILX}
+        \addlegendimage{platform legend={ C }} \addlegendentry{Milan}
+        \addlegendimage{platform legend={ D }} \addlegendentry{KNL}
+        \addlegendimage{platform legend={ E }} \addlegendentry{TX2}
+        \addlegendimage{platform legend={ F }} \addlegendentry{A64FX}
+        \addlegendimage{platform legend={ G }} \addlegendentry{V100}
+        \addlegendimage{platform legend={ H }} \addlegendentry{A100}
+        \addlegendimage{platform legend={ I }} \addlegendentry{MI100}
+        
+    \end{groupplot}
+
+\end{tikzpicture}
+
+\end{document}
