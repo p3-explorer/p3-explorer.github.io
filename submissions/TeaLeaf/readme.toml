@@ -3,5 +3,5 @@ appDomain = ["Structured Grid", "Linear Heat Conduction Equation", "Mini-Applica
 sources = [["GitHub","https://github.com/UoB-HPC/TeaLeaf"]] 
 description = """A C++ based implementation of the TeaLeaf heat conduction mini-app. This implementation of TeaLeaf replicates the functionality of the original reference version of TeaLeaf (https://github.com/UK-MAC/TeaLeaf_ref). TeaLeaf solves a simple linear heat conduction equation in two or three dimensions.
 
-This implementation has support for building with and without MPI. When MPI is enabled, all models will adjust accordingly for asynchronous MPI send/recv.
+This implementation has support for building with and without MPI. When MPI is enabled, all models will adjust accordingly for asynchronous MPI send/recv. 
 """
