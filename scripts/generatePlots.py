@@ -38,6 +38,7 @@ class csvToPlot:
         """
 
         self.targets = targets
+        print(f'Targets: {self.targets}')
         infoPath = open(self.targets.get("info"), "rb")
         infoData = toml.load(infoPath)
         self.fom = infoData.get("fom")
@@ -57,10 +58,8 @@ class csvToPlot:
             coveragePath = self.targets.get("coverage")
             # Only attempting to create nav chart if coverage data is present
             if coveragePath is not None:
-                # Making sure the coverage_key column is present in performance data otherwise the navchart can't be created
-                if "coverage_key" in performanceData.columns:
-                    coverageData = pd.read_csv(coveragePath)
-                    self.createNav(performanceData, coverageData)
+                coverageData = pd.read_csv(coveragePath)
+                self.createNav(performanceData, coverageData)
             self.createCascade(performanceData)
             self.createBarChart(performanceData)
         except Exception as e:
@@ -202,12 +201,20 @@ class csvToPlot:
 
         """
         print("Creating Navchart")
-        df = performance
-        df_cov = coverage
 
-        effs = p3.metrics.application_efficiency(df)
-        df.sort_values("application")
-        div = p3.metrics.divergence(df, df_cov)
+        # Checking whether coverage data is coverage or divergence data
+        if set(["problem", "application", "divergence"]).issubset(set(coverage.columns)):
+            div = coverage
+        else:
+            # Making sure the coverage_key column is present in performance data otherwise the navchart can't be created
+            if not "coverage_key" in performance.columns:
+                print(f'coverage_key column not found in performance data, cannot create nav chart')
+                return
+            div = p3.metrics.divergence(performance, coverage)
+            
+
+        effs = p3.metrics.application_efficiency(performance)
+        
         pp = p3.metrics.pp(effs)
 
         fig = plt.figure(figsize=(5, 5))

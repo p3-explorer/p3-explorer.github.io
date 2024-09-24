@@ -1,9 +1,9 @@
-problem, application, divergence
-CabanaPIC, Kokkos, 0.0
-CabanaPIC, OP-PIC (Best), 0.0
-CabanaPIC, OP-PIC (OpenMP), 0.0
-CabanaPIC, OP-PIC (MPI), 0.0
-CabanaPIC, OP-PIC (CUDA), 0.0
-CabanaPIC, OP-PIC (HIP-seg-reductions), 0.0
-CabanaPIC, OP-PIC (HIP-atomics), 0.0
-CabanaPIC, OP-PIC (HIP-unsafe atomics), 0.0
+problem,application,divergence
+CabanaPIC,Kokkos,0.0
+CabanaPIC,OP-PIC (Best),0.0
+CabanaPIC,OP-PIC (OpenMP),0.0
+CabanaPIC,OP-PIC (MPI),0.0
+CabanaPIC,OP-PIC (CUDA),0.0
+CabanaPIC,OP-PIC (HIP-seg-reductions),0.0
+CabanaPIC,OP-PIC (HIP-atomics),0.0
+CabanaPIC,OP-PIC (HIP-unsafe atomics),0.0
