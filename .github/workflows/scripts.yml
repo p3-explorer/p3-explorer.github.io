@@ -36,7 +36,7 @@ jobs:
           git clone https://github.com/intel/p3-analysis-library.git
           cd p3-analysis-library
           git reset --hard d615e043bce48f8ddaf940f25eecf6699fca1e44
-          python -m pip install ./p3-analysis-library
+          python -m pip install .
       
       # checking out the main branch (NOTE: fetch depth is 0 to prevent error when pushing back to repo)
       - name: checkout repo content
