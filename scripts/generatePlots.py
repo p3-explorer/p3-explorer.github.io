@@ -1,6 +1,4 @@
 import matplotlib.pyplot as plt
-import p3analysis.plot as p3.plot
-import p3analysis.plot.backend as p3.plot.backend
 import pandas as pd
 import p3analysis as p3
 import os
