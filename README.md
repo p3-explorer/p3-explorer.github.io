@@ -1,6 +1,6 @@
 # P3 Explorer 
 
-This webpage contains a collection of graphical representations of Performance, Portability and Productivity (P3) data which have been automatically generated using the [P3 Explorer Library](https://intel.github.io/p3-analysis-library/), Browse data on the Explore page or learn how to contribute your own data on the About page.
+This webpage contains a collection of graphical representations of Performance, Portability and Productivity (P3) data which have been automatically generated using the [P3 Analysis Library](https://p3hpc.org/p3-analysis-library/), Browse data on the Explore page or learn how to contribute your own data on the About page.
 
 Created & Maintained by Matt Smith:
 
